@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6](https://github.com/nikolozz/catbook-backend/compare/v0.0.5...v0.0.6) (2021-09-23)
+
+
+### Features
+
+* aws module ([77674d5](https://github.com/nikolozz/catbook-backend/commit/77674d5ec0e4a5dbfe5fd3a264c80dc3829d0269))
+
 ### [0.0.5](https://github.com/nikolozz/catbook-backend/compare/v0.0.4...v0.0.5) (2021-09-23)
 
 
