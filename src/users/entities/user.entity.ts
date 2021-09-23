@@ -1,17 +1,22 @@
 import { Exclude } from 'class-transformer';
 import { RoleEnum } from '../enums/role.enums';
+import { Post } from '../../posts/entities/post.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  JoinTable,
+  OneToMany,
   PrimaryGeneratedColumn,
+  RelationId,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class UserEntity {
+export class User {
   @PrimaryGeneratedColumn()
-  public id: string;
+  public id: number;
 
   @Column({ unique: true })
   public username: string;
@@ -27,6 +32,12 @@ export class UserEntity {
   })
   @Exclude()
   public role: RoleEnum;
+
+  @OneToMany(
+    () => Post,
+    (post: Post) => post.authorId,
+  )
+  public posts: Post[];
 
   @CreateDateColumn()
   public createdAt: Date;

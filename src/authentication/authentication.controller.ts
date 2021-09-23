@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { RegisterDto } from './dto/register.dto';
-import { RequestWithUserInterface } from './interfaces/request-with-user.interface';
+import { IRequestWithUser } from './interfaces/request-with-user.interface';
 import { LocalAuthenticationGuard } from './guards/local-authentication.guard';
 import { JwtAuthenticationGuard } from './guards/jwt-authentication.guard';
 
@@ -19,7 +19,7 @@ export class AuthenticationController {
 
   @Get('authenticate')
   @UseGuards(JwtAuthenticationGuard)
-  authenticate(@Req() request: RequestWithUserInterface) {
+  authenticate(@Req() request: IRequestWithUser) {
     return request.user;
   }
 
@@ -31,7 +31,7 @@ export class AuthenticationController {
   @HttpCode(200)
   @Post('login')
   @UseGuards(LocalAuthenticationGuard)
-  login(@Req() request: RequestWithUserInterface) {
+  login(@Req() request: IRequestWithUser) {
     const { username, role } = request.user;
     const token = this.authenticationService.login({ username, role });
     request.res.setHeader('Authentication', token);

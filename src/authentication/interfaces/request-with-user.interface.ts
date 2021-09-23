@@ -1,6 +1,6 @@
 import { UserInterface } from '../../users/interfaces/user.interface';
 import { Request } from 'express';
 
-export interface RequestWithUserInterface extends Request {
+export interface IRequestWithUser extends Request {
   user: UserInterface;
 }
