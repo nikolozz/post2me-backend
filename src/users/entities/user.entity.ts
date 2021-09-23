@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { RoleEnum } from '../enums/role.enums';
 import {
   Column,
   CreateDateColumn,
@@ -18,6 +19,14 @@ export class UserEntity {
   @Column()
   @Exclude()
   public password: string;
+
+  @Column({
+    type: 'enum',
+    enum: RoleEnum,
+    default: RoleEnum.USER,
+  })
+  @Exclude()
+  public role: RoleEnum;
 
   @CreateDateColumn()
   public createdAt: Date;

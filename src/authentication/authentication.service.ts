@@ -8,10 +8,16 @@ import { RegisterDto } from './dto/register.dto';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { PostgresErrorCode } from '../database/enums/postgres-error-codes.enum';
+import { RoleEnum } from '../users/enums/role.enums';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthenticationService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async register(registerDto: RegisterDto) {
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
@@ -33,6 +39,11 @@ export class AuthenticationService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  login({ username, role }: { username: string; role: RoleEnum }) {
+    const payload: JwtPayload = { username, role };
+    return this.jwtService.sign(payload);
   }
 
   async getAuthenticatedUser(username: string, password: string) {
