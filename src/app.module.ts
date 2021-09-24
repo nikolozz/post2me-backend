@@ -8,6 +8,7 @@ import { PostsModule } from './posts/posts.module';
 import { AwsModule } from './aws/aws.module';
 import { FilesModule } from './files/files.module';
 import { CommentsModule } from './comments/comments.module';
+import { VotesModule } from './votes/votes.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { CommentsModule } from './comments/comments.module';
     PostsModule,
     FilesModule,
     CommentsModule,
+    VotesModule,
   ],
 })
 export class AppModule {}

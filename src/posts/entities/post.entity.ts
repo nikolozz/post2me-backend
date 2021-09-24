@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Comment } from '../../comments/entities/comment.entity';
+import { Vote } from '../../votes/entities/votes.entity';
 
 @Entity()
 export class Post {
@@ -38,6 +39,9 @@ export class Post {
     { eager: true },
   )
   public comments?: Comment[];
+
+  @OneToMany(() => Vote, (vote: Vote) => vote.post)
+  public votes?: Vote[];
 
   @CreateDateColumn()
   public createdAt?: Date;

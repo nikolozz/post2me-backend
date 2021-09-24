@@ -12,13 +12,17 @@ export class PostsRepository {
   ) {}
 
   getAllPosts(paginationParams?: PaginationParams) {
-    return this.postsRepository.find({
-      order: {
-        id: 'ASC',
-      },
-      skip: paginationParams?.offset,
-      take: paginationParams?.limit,
-    });
+    return this.postsRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.votes', 'vote')
+      .leftJoinAndSelect('post.comments', 'comment')
+      .leftJoinAndSelect('post.author', 'user')
+      .leftJoinAndSelect('user.avatar', 'file')
+      .loadRelationCountAndMap('post.votes', 'post.votes')
+      .skip(paginationParams?.offset)
+      .take(paginationParams?.limit)
+      .orderBy('post.id', 'ASC')
+      .getMany();
   }
 
   getPost(postId: number) {
