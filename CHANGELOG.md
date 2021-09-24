@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/nikolozz/catbook-backend/compare/v0.0.7...v0.0.8) (2021-09-24)
+
+
+### Features
+
+* add/delete avatar using transactions ([d0714c9](https://github.com/nikolozz/catbook-backend/commit/d0714c9680cbd1d6469dac64de8c5d288a4aeb53))
+* comments module, refactor JWTPayload ([daa8090](https://github.com/nikolozz/catbook-backend/commit/daa80904fefbb234b574ed34fc33d52e7e012958))
+
 ### [0.0.7](https://github.com/nikolozz/catbook-backend/compare/v0.0.6...v0.0.7) (2021-09-24)
 
 
