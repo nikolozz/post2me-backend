@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PaginationParams } from 'src/common/types/pagination-params.interface';
+import { PaginationParams } from '../common/types/pagination-params.interface';
 import { CreatePostDto } from './dto/create-post.dto';
 import { PostsRepository } from './posts.repository';
 import { UsersService } from '../users/users.service';

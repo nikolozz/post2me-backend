@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { PostsModule } from './posts/posts.module';
 import { AwsModule } from './aws/aws.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { AwsModule } from './aws/aws.module';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         accessKeyId: configService.get('AWS_ACCESS_KEY_ID'),
-        secretAccessKeyId: configService.get('AWS_SECRET_ACCESS_KEY'),
+        secretAccessKey: configService.get('AWS_SECRET_ACCESS_KEY'),
         region: configService.get('AWS_REGION'),
       }),
       inject: [ConfigService],
@@ -25,12 +26,21 @@ import { AwsModule } from './aws/aws.module';
         POSTGRES_USER: Joi.string().required(),
         POSTGRES_PASSWORD: Joi.string().required(),
         POSTGRES_DB: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
+        JWT_EXPIRATION_TIME: Joi.number().required(),
+        AWS_ACCESS_KEY_ID: Joi.string().required(),
+        AWS_SECRET_ACCESS_KEY: Joi.string().required(),
+        AWS_REGION: Joi.string().required(),
+        PORT: Joi.number().required(),
+        FRONTEND_URL: Joi.string().required(),
+        PUBLIC_BUCKET: Joi.string().required(),
       }),
     }),
     DatabaseModule,
     UsersModule,
     AuthenticationModule,
     PostsModule,
+    FilesModule,
   ],
 })
 export class AppModule {}

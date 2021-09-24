@@ -44,7 +44,7 @@ export class AwsModule {
           region: options.region,
           credentials: {
             accessKeyId: options.accessKeyId,
-            secretAccessKeyId: options.secretAccessKeyId,
+            secretAccessKey: options.secretAccessKey,
           },
         }),
       inject: [AWS_MODULE_TOKEN],

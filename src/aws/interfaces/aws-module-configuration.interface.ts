@@ -1,6 +1,6 @@
 export interface IAWSModuleConfiguration {
   readonly accessKeyId: string;
-  readonly secretAccessKeyId: string;
+  readonly secretAccessKey: string;
   readonly region: string;
 }
 

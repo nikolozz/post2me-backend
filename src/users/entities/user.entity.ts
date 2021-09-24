@@ -1,17 +1,15 @@
 import { Exclude } from 'class-transformer';
 import { RoleEnum } from '../enums/role.enums';
-import { Post } from '../../posts/entities/post.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  JoinTable,
   OneToMany,
   PrimaryGeneratedColumn,
-  RelationId,
   UpdateDateColumn,
 } from 'typeorm';
+import { Post } from '../../posts/entities/post.entity';
+import { File } from '../../files/entities/file.entity';
 
 @Entity()
 export class User {
@@ -38,6 +36,13 @@ export class User {
     (post: Post) => post.authorId,
   )
   public posts: Post[];
+
+  @OneToMany(
+    () => File,
+    (file: File) => file.owner,
+    { eager: true },
+  )
+  public files: File[];
 
   @CreateDateColumn()
   public createdAt: Date;
