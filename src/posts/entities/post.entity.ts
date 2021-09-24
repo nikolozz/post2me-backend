@@ -1,13 +1,15 @@
-import { User } from '../../users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   RelationId,
   UpdateDateColumn,
 } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { Comment } from '../../comments/entities/comment.entity';
 
 @Entity()
 export class Post {
@@ -29,6 +31,13 @@ export class Post {
 
   @RelationId((post: Post) => post.author)
   public authorId?: number;
+
+  @OneToMany(
+    () => Comment,
+    (comment: Comment) => comment.post,
+    { eager: true },
+  )
+  public comments?: Comment[];
 
   @CreateDateColumn()
   public createdAt?: Date;

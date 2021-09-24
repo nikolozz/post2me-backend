@@ -11,6 +11,10 @@ export class UsersRepository {
     private readonly usersRepository: Repository<User>,
   ) {}
 
+  getById(id: number) {
+    return this.usersRepository.findOne(id);
+  }
+
   getByUsername(username: string) {
     return this.usersRepository.findOne({ username });
   }

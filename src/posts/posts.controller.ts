@@ -33,7 +33,7 @@ export class PostsController {
   @Post()
   @UseGuards(JwtAuthenticationGuard)
   create(@Body() post: CreatePostDto, @Req() request: IRequestWithUser) {
-    return this.postsService.create(post, request.user.username);
+    return this.postsService.create(post, request.user.id);
   }
 
   @Patch(':postId')
@@ -43,7 +43,7 @@ export class PostsController {
     @Body() postBody: CreatePostDto,
     @Req() request: IRequestWithUser,
   ) {
-    return this.postsService.update(postId, request.user.username, postBody);
+    return this.postsService.update(postId, request.user.id, postBody);
   }
 
   @Delete(':postId')
@@ -52,6 +52,6 @@ export class PostsController {
     @Param('postId') postId: number,
     @Req() request: IRequestWithUser,
   ) {
-    return this.postsService.delete(postId, request.user.username);
+    return this.postsService.delete(postId, request.user.id);
   }
 }

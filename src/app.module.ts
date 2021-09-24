@@ -7,6 +7,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { PostsModule } from './posts/posts.module';
 import { AwsModule } from './aws/aws.module';
 import { FilesModule } from './files/files.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { FilesModule } from './files/files.module';
     AuthenticationModule,
     PostsModule,
     FilesModule,
+    CommentsModule,
   ],
 })
 export class AppModule {}

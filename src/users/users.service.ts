@@ -20,6 +20,14 @@ export class UsersService {
     return this.usersRepository.create(user);
   }
 
+  async getById(id: number) {
+    const user = this.usersRepository.getById(id);
+    if (!user) {
+      throw new NotFoundException(`User ${id} is not found.`);
+    }
+    return user;
+  }
+
   async getByUsername(username: string) {
     const user = this.usersRepository.getByUsername(username);
     if (!user) {
@@ -28,10 +36,10 @@ export class UsersService {
     return user;
   }
 
-  async addAvatar(username: string, buffer: Buffer, fileName: string) {
-    const user = await this.getByUsername(username);
+  async addAvatar(id: number, buffer: Buffer, fileName: string) {
+    const user = await this.getById(id);
     if (user.avatar) {
-      await this.deleteAvatar(username);
+      await this.deleteAvatar(id);
     }
     const avatar = await this.filesService.uploadFile(
       user.id,
@@ -42,10 +50,10 @@ export class UsersService {
     return avatar;
   }
 
-  async deleteAvatar(username: string) {
+  async deleteAvatar(id: number) {
     const queryRunner = this.connection.createQueryRunner();
 
-    const user = await this.getByUsername(username);
+    const user = await this.getById(id);
 
     await queryRunner.connect();
     await queryRunner.startTransaction();

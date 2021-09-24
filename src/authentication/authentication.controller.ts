@@ -12,6 +12,7 @@ import { RegisterDto } from './dto/register.dto';
 import { IRequestWithUser } from './interfaces/request-with-user.interface';
 import { LocalAuthenticationGuard } from './guards/local-authentication.guard';
 import { JwtAuthenticationGuard } from './guards/jwt-authentication.guard';
+import { HttpStatus } from '@nestjs/common';
 
 @Controller()
 export class AuthenticationController {
@@ -28,12 +29,12 @@ export class AuthenticationController {
     return this.authenticationService.register(registerDto);
   }
 
-  @HttpCode(200)
+  @HttpCode(HttpStatus.ACCEPTED)
   @Post('login')
   @UseGuards(LocalAuthenticationGuard)
   login(@Req() request: IRequestWithUser) {
-    const { username, role } = request.user;
-    const token = this.authenticationService.login({ username, role });
+    const { id, role } = request.user;
+    const token = this.authenticationService.login({ id, role });
     request.res.setHeader('Authentication', token);
     return request.user;
   }

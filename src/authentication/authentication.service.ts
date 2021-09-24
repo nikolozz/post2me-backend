@@ -20,7 +20,8 @@ export class AuthenticationService {
   ) {}
 
   async register(registerDto: RegisterDto) {
-    const hashedPassword = await bcrypt.hash(registerDto.password, 10);
+    const SALT = 10;
+    const hashedPassword = await bcrypt.hash(registerDto.password, SALT);
     try {
       const createdUser = await this.usersService.create({
         ...registerDto,
@@ -41,8 +42,8 @@ export class AuthenticationService {
     }
   }
 
-  login({ username, role }: { username: string; role: RoleEnum }) {
-    const payload: JwtPayload = { username, role };
+  login({ id, role }: { id: number; role: RoleEnum }) {
+    const payload: JwtPayload = { id, role };
     return this.jwtService.sign(payload);
   }
 

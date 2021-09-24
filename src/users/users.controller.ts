@@ -25,7 +25,7 @@ export class UsersController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     return this.usersService.addAvatar(
-      request.user.username,
+      request.user.id,
       file.buffer,
       file.originalname,
     );
@@ -34,6 +34,6 @@ export class UsersController {
   @Delete('avatar')
   @UseGuards(JwtAuthenticationGuard)
   deleteAvatar(@Req() request: IRequestWithUser) {
-    return this.usersService.deleteAvatar(request.user.username);
+    return this.usersService.deleteAvatar(request.user.id);
   }
 }

@@ -19,16 +19,16 @@ export class PostsService {
     return this.postsRepository.getPost(postId);
   }
 
-  async create(post: CreatePostDto, username: string) {
-    const author = await this.usersService.getByUsername(username);
+  async create(post: CreatePostDto, id: number) {
+    const author = await this.usersService.getById(id);
     return this.postsRepository.create({
       ...post,
       author,
     });
   }
 
-  async update(postId: number, username: string, postBody: CreatePostDto) {
-    const { id } = await this.usersService.getByUsername(username);
+  async update(postId: number, authorId: number, postBody: CreatePostDto) {
+    const { id } = await this.usersService.getById(authorId);
     const post = await this.postsRepository.getPost(postId);
     if (post?.authorId !== id) {
       throw new NotFoundException(postId);
@@ -36,8 +36,8 @@ export class PostsService {
     return this.postsRepository.update(postId, postBody);
   }
 
-  async delete(postId: number, username: string) {
-    const { id } = await this.usersService.getByUsername(username);
+  async delete(postId: number, authorId: number) {
+    const { id } = await this.usersService.getById(authorId);
     const post = await this.postsRepository.getPost(postId);
     if (post?.authorId !== id) {
       throw new NotFoundException(postId);
