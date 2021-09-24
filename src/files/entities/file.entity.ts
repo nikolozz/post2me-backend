@@ -1,7 +1,7 @@
 import {
   Column,
   Entity,
-  ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   RelationId,
 } from 'typeorm';
@@ -18,12 +18,9 @@ export class File {
   @Column()
   public url: string;
 
-  @ManyToOne(
-    () => User,
-    (user: User) => user.files,
-  )
+  @OneToOne(() => User, (user: User) => user.avatar)
   public owner: User;
 
   @RelationId((file: File) => file.owner)
-  public ownerId: number[];
+  public ownerId: number;
 }

@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { QueryRunner, Repository } from 'typeorm';
 import { File } from './entities/file.entity';
 
 @Injectable()
@@ -9,15 +9,24 @@ export class FilesRepository {
     @InjectRepository(File) private readonly filesRepository: Repository<File>,
   ) {}
 
-  async create(url: string, key: string, ownerId: number) {
+  getFile(id: number) {
+    return this.filesRepository.findOne(id);
+  }
+
+  async create(url: string, key: string, userId: number) {
     const newFile = this.filesRepository.create({
       url,
       key,
-      owner: {
-        id: ownerId,
-      },
+      owner: { id: userId },
     });
     await this.filesRepository.save(newFile);
     return newFile;
+  }
+
+  async deleteWithTransaction(id: number, queryRunner: QueryRunner) {
+    const deleteResponse = await queryRunner.manager.delete(File, id);
+    if (!deleteResponse) {
+      throw new NotFoundException(`File ${id} is not found`);
+    }
   }
 }

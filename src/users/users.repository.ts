@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { QueryRunner, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 
@@ -11,13 +11,21 @@ export class UsersRepository {
     private readonly usersRepository: Repository<User>,
   ) {}
 
+  getByUsername(username: string) {
+    return this.usersRepository.findOne({ username });
+  }
+
   async create(user: CreateUserDto) {
     const newUser = this.usersRepository.create(user);
     await this.usersRepository.save(newUser);
     return newUser;
   }
 
-  getByUsername(username: string) {
-    return this.usersRepository.findOne({ username });
+  update(userId: number, user: User) {
+    return this.usersRepository.update(userId, user);
+  }
+
+  deleteAvatarWithTransaction(userId, queryRunner: QueryRunner) {
+    return queryRunner.manager.update(User, userId, { avatar: null });
   }
 }

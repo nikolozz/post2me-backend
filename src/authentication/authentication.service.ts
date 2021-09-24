@@ -48,9 +48,6 @@ export class AuthenticationService {
 
   async getAuthenticatedUser(username: string, password: string) {
     const user = await this.usersService.getByUsername(username);
-    if (!user) {
-      throw new NotFoundException(`User with ${username} is not found`);
-    }
     await this.validatePassword(password, user?.password);
     return user;
   }

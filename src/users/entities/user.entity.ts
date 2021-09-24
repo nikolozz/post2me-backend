@@ -4,7 +4,9 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -37,12 +39,9 @@ export class User {
   )
   public posts: Post[];
 
-  @OneToMany(
-    () => File,
-    (file: File) => file.owner,
-    { eager: true },
-  )
-  public files: File[];
+  @OneToOne(() => File, { eager: true, nullable: true })
+  @JoinColumn()
+  public avatar: File;
 
   @CreateDateColumn()
   public createdAt: Date;
