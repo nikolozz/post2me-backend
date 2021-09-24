@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/nikolozz/catbook-backend/compare/v0.0.6...v0.0.7) (2021-09-24)
+
+
+### Features
+
+* upload files ([7bc22cb](https://github.com/nikolozz/catbook-backend/commit/7bc22cbb69adac6d85ca1882ff12a852a54cb156))
+
 ### [0.0.6](https://github.com/nikolozz/catbook-backend/compare/v0.0.5...v0.0.6) (2021-09-23)
 
 
