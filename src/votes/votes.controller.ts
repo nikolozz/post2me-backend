@@ -7,14 +7,16 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { VotesService } from './votes.service';
 import { IRequestWithUser } from '../authentication/interfaces/request-with-user.interface';
 import { JwtAuthenticationGuard } from '../authentication/guards/jwt-authentication.guard';
 import { Param } from '@nestjs/common';
+import { CommandBus } from '@nestjs/cqrs';
+import { AddVoteCommand } from './commands/implementations/add-vote.command';
+import { DeleteVoteCommand } from './commands/implementations/delete-vote.command';
 
 @Controller('votes')
 export class VotesController {
-  constructor(private readonly votesService: VotesService) {}
+  constructor(private readonly commandBus: CommandBus) {}
 
   @Post()
   @UseGuards(JwtAuthenticationGuard)
@@ -22,7 +24,7 @@ export class VotesController {
     @Body('postId', ParseIntPipe) postId: number,
     @Req() request: IRequestWithUser,
   ) {
-    return this.votesService.addVote(postId, request.user.id);
+    return this.commandBus.execute(new AddVoteCommand(postId, request.user.id));
   }
 
   @Delete(':postId')
@@ -31,6 +33,8 @@ export class VotesController {
     @Param('postId', ParseIntPipe) postId: number,
     @Req() request: IRequestWithUser,
   ) {
-    return this.votesService.deleteVote(postId, request.user.id);
+    return this.commandBus.execute(
+      new DeleteVoteCommand(postId, request.user.id),
+    );
   }
 }
