@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.9](https://github.com/nikolozz/catbook-backend/compare/v0.0.8...v0.0.9) (2021-09-25)
+
+
+### Features
+
+* notifications system ([cfda512](https://github.com/nikolozz/catbook-backend/commit/cfda51202cd388af766b7389299876a4b98f9d40))
+* post votes ([c97cac9](https://github.com/nikolozz/catbook-backend/commit/c97cac98d1186f6cd8a57d04d89940a785fef766))
+
 ### [0.0.8](https://github.com/nikolozz/catbook-backend/compare/v0.0.7...v0.0.8) (2021-09-24)
 
 
