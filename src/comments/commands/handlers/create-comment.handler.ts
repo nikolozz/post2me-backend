@@ -1,8 +1,11 @@
 import { Repository } from 'typeorm';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCommentCommand } from '../implementations/create-comment.command';
 import { Comment } from '../../entities/comment.entity';
+import { CreateNotificationEvent } from '../../../notifications/events/implementations/create-notification.event';
+import { NotificationTypesEnum } from '../../../notifications/enums/notification-types.enum';
+import { PostsService } from '../../../posts/posts.service';
 
 @CommandHandler(CreateCommentCommand)
 export class CreateCommandHandler
@@ -10,6 +13,8 @@ export class CreateCommandHandler
   constructor(
     @InjectRepository(Comment)
     private readonly commentsRepository: Repository<Comment>,
+    private readonly eventBus: EventBus,
+    private readonly postsService: PostsService,
   ) {}
 
   async execute(command: CreateCommentCommand) {
@@ -19,6 +24,19 @@ export class CreateCommandHandler
       author: { id: authorId },
       post: { id: postId },
     });
+    const {
+      author: { id },
+    } = await this.postsService.getPost(postId);
+    if (id !== authorId) {
+      await this.eventBus.publish(
+        new CreateNotificationEvent(
+          id,
+          authorId,
+          NotificationTypesEnum.Comment,
+          postId,
+        ),
+      );
+    }
     await this.commentsRepository.save(newComment);
   }
 }

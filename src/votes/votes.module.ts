@@ -7,11 +7,18 @@ import { Vote } from './entities/votes.entity';
 import { CqrsModule } from '@nestjs/cqrs';
 import { AddVoteHandler } from './commands/handlers/add-vote.handler';
 import { DeleteVoteHandler } from './commands/handlers/delete-vote.handler';
+import { NotificationsModule } from '../notifications/notifications.module';
+import { PostsModule } from '../posts/posts.module';
 
 const CommandHandlers = [AddVoteHandler, DeleteVoteHandler];
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Vote]), CqrsModule],
+  imports: [
+    TypeOrmModule.forFeature([Vote]),
+    CqrsModule,
+    NotificationsModule,
+    PostsModule,
+  ],
   controllers: [VotesController],
   providers: [VotesService, VotesRepository, ...CommandHandlers],
 })

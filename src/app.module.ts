@@ -9,6 +9,7 @@ import { AwsModule } from './aws/aws.module';
 import { FilesModule } from './files/files.module';
 import { CommentsModule } from './comments/comments.module';
 import { VotesModule } from './votes/votes.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { VotesModule } from './votes/votes.module';
     FilesModule,
     CommentsModule,
     VotesModule,
+    NotificationsModule,
   ],
 })
 export class AppModule {}

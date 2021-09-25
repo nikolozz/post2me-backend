@@ -9,7 +9,12 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "skipDefaultLibCheck": true,
+    "paths": {
+      "rxjs": ["./node_modules/rxjs"],
+      "rxjs/*": ["./node_modules/rxjs/*"]
+    }
   },
   "exclude": ["node_modules", "dist"]
 }

@@ -12,6 +12,7 @@ import {
 } from 'typeorm';
 import { Post } from '../../posts/entities/post.entity';
 import { File } from '../../files/entities/file.entity';
+import { Notification } from '../../notifications/entities/notification.entity';
 
 @Entity()
 export class User {
@@ -42,6 +43,12 @@ export class User {
   @OneToOne(() => File, { eager: true, nullable: true })
   @JoinColumn()
   public avatar: File;
+
+  @OneToMany(
+    () => Notification,
+    (notification: Notification) => notification.user,
+  )
+  public notifications: Notification[];
 
   @CreateDateColumn()
   public createdAt: Date;
