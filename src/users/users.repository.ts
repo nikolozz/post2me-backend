@@ -19,6 +19,10 @@ export class UsersRepository {
     return this.usersRepository.findOne({ username });
   }
 
+  getUserWithPosts(userId: number) {
+    return this.usersRepository.findOne(userId, { relations: ['posts'] });
+  }
+
   async create(user: CreateUserDto) {
     const newUser = this.usersRepository.create(user);
     await this.usersRepository.save(newUser);

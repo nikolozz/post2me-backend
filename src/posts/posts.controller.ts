@@ -15,6 +15,7 @@ import { PaginationParams } from '../common/types/pagination-params.interface';
 import { CreatePostDto } from './dto/create-post.dto';
 import { IRequestWithUser } from '../authentication/interfaces/request-with-user.interface';
 import { JwtAuthenticationGuard } from '../authentication/guards/jwt-authentication.guard';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -40,7 +41,7 @@ export class PostsController {
   @UseGuards(JwtAuthenticationGuard)
   async update(
     @Param('postId') postId: number,
-    @Body() postBody: CreatePostDto,
+    @Body() postBody: UpdatePostDto,
     @Req() request: IRequestWithUser,
   ) {
     return this.postsService.update(postId, request.user.id, postBody);

@@ -29,7 +29,7 @@ export class AuthenticationController {
     return this.authenticationService.register(registerDto);
   }
 
-  @HttpCode(HttpStatus.ACCEPTED)
+  @HttpCode(HttpStatus.OK)
   @Post('login')
   @UseGuards(LocalAuthenticationGuard)
   login(@Req() request: IRequestWithUser) {

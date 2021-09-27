@@ -16,6 +16,10 @@ export class UsersService {
     private readonly connection: Connection,
   ) {}
 
+  getUser(userId: number) {
+    return this.usersRepository.getUserWithPosts(userId);
+  }
+
   create(user: CreateUserDto) {
     return this.usersRepository.create(user);
   }

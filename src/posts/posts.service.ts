@@ -3,6 +3,7 @@ import { PaginationParams } from '../common/types/pagination-params.interface';
 import { CreatePostDto } from './dto/create-post.dto';
 import { PostsRepository } from './posts.repository';
 import { UsersService } from '../users/users.service';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Injectable()
 export class PostsService {
@@ -27,7 +28,7 @@ export class PostsService {
     });
   }
 
-  async update(postId: number, authorId: number, postBody: CreatePostDto) {
+  async update(postId: number, authorId: number, postBody: UpdatePostDto) {
     const { id } = await this.usersService.getById(authorId);
     const post = await this.postsRepository.getPost(postId);
     if (post?.authorId !== id) {

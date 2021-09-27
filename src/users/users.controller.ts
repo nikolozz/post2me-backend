@@ -1,6 +1,8 @@
 import {
   Controller,
   Delete,
+  Get,
+  Param,
   Post,
   Req,
   UploadedFile,
@@ -16,6 +18,12 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Get(':userId')
+  @UseGuards(JwtAuthenticationGuard)
+  public getUser(@Param('userId') userId: number) {
+    return this.usersService.getUser(userId);
+  }
 
   @Post('add-avatar')
   @UseInterceptors(FileInterceptor('file'))
