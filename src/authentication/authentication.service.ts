@@ -11,6 +11,8 @@ import { PostgresErrorCode } from '../database/enums/postgres-error-codes.enum';
 import { RoleEnum } from '../users/enums/role.enums';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
+import { BadRequestException } from '@nestjs/common';
+import { SALT } from '../common/contants';
 
 @Injectable()
 export class AuthenticationService {
@@ -20,11 +22,13 @@ export class AuthenticationService {
   ) {}
 
   async register(registerDto: RegisterDto) {
-    const SALT = 10;
-    const hashedPassword = await bcrypt.hash(registerDto.password, SALT);
+    const { password, confirmPassword, username } = registerDto;
+    this.validateConfirmPassword(password, confirmPassword);
+
+    const hashedPassword = await bcrypt.hash(password, SALT);
     try {
       const createdUser = await this.usersService.create({
-        ...registerDto,
+        username,
         password: hashedPassword,
       });
       return createdUser;
@@ -54,6 +58,14 @@ export class AuthenticationService {
     }
     await this.validatePassword(password, user?.password);
     return user;
+  }
+
+  private validateConfirmPassword(password: string, confirmPassword: string) {
+    if (password !== confirmPassword) {
+      throw new BadRequestException({
+        message: 'Passwords does not match',
+      });
+    }
   }
 
   private async validatePassword(

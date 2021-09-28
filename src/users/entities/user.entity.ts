@@ -36,7 +36,7 @@ export class User {
 
   @OneToMany(
     () => Post,
-    (post: Post) => post.authorId,
+    (post: Post) => post.author,
   )
   public posts: Post[];
 

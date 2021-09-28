@@ -16,6 +16,7 @@ export class PostsRepository {
     return this.postsRepository.find({
       take: limit,
       skip: offset,
+      order: { id: 'DESC'},
       relations: ['votes'],
     });
   }
