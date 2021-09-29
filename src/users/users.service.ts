@@ -3,10 +3,11 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UsersRepository } from './users.repository';
 import { FilesService } from '../files/files.service';
 import { Connection } from 'typeorm';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -22,6 +23,11 @@ export class UsersService {
 
   create(user: CreateUserDto) {
     return this.usersRepository.create(user);
+  }
+
+  async updateUser(id: number, updateBody: UpdateUserDto) {
+    const user = await this.getById(id);
+    return this.usersRepository.update(id, { ...user, ...updateBody });
   }
 
   async getById(id: number) {

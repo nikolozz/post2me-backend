@@ -22,7 +22,7 @@ export class AuthenticationService {
   ) {}
 
   async register(registerDto: RegisterDto) {
-    const { password, confirmPassword, username } = registerDto;
+    const { password, confirmPassword, username, bio } = registerDto;
     this.validateConfirmPassword(password, confirmPassword);
 
     const hashedPassword = await bcrypt.hash(password, SALT);
@@ -30,6 +30,7 @@ export class AuthenticationService {
       const createdUser = await this.usersService.create({
         username,
         password: hashedPassword,
+        bio,
       });
       return createdUser;
     } catch (error) {

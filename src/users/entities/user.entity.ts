@@ -26,6 +26,9 @@ export class User {
   @Exclude()
   public password: string;
 
+  @Column({ nullable: true })
+  public bio?: string;
+
   @Column({
     type: 'enum',
     enum: RoleEnum,

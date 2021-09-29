@@ -1,8 +1,10 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Req,
   UploadedFile,
@@ -14,6 +16,7 @@ import { JwtAuthenticationGuard } from '../authentication/guards/jwt-authenticat
 import { IRequestWithUser } from '../authentication/interfaces/request-with-user.interface';
 import { Express } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -37,6 +40,15 @@ export class UsersController {
       file.buffer,
       file.originalname,
     );
+  }
+
+  @Patch()
+  @UseGuards(JwtAuthenticationGuard)
+  public updateUser(
+    @Body() updateBody: UpdateUserDto,
+    @Req() request: IRequestWithUser,
+  ) {
+    return this.usersService.updateUser(request.user.id, updateBody);
   }
 
   @Delete('avatar')

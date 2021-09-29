@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 import { MAX_USERNAME_LENGTH } from '../../users/constants';
 
 export class RegisterDto {
@@ -9,6 +9,9 @@ export class RegisterDto {
 
   @IsNotEmpty()
   public password: string;
+
+  @IsOptional()
+  public bio?: string;
 
   @IsNotEmpty()
   public confirmPassword: string;
