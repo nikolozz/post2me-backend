@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.11](https://github.com/nikolozz/catbook-backend/compare/v0.0.10...v0.0.11) (2021-09-29)
+
+
+### Features
+
+* update user, add bio to user ([8ab023e](https://github.com/nikolozz/catbook-backend/commit/8ab023eb256a8314289ee1c51e817f07185b7d0d))
+
+
+### Bug Fixes
+
+* confirm password validation, author => post relation, order posts descriment ([b3e5485](https://github.com/nikolozz/catbook-backend/commit/b3e5485f6fff1d3eff76c8edf81c241a1d41323a))
+
 ### [0.0.10](https://github.com/nikolozz/catbook-backend/compare/v0.0.9...v0.0.10) (2021-09-27)
 
 ### [0.0.9](https://github.com/nikolozz/catbook-backend/compare/v0.0.8...v0.0.9) (2021-09-25)
