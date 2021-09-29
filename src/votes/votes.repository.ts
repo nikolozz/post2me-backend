@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Vote } from './entities/votes.entity';
+import { Vote } from './entities/vote.entity';
 import { IGetVote } from './interfaces/get-vote.interface';
 
 @Injectable()
@@ -25,10 +25,7 @@ export class VotesRepository {
       owner: { id: ownerId },
     });
     await this.votesRepository.save(newVote);
-    const [_, count] = await this.votesRepository.findAndCount({
-      post: { id: postId },
-    });
-    return count;
+    return this.getVoteAndCount(postId);
   }
 
   async deleteVote(vote: IGetVote) {
@@ -40,5 +37,13 @@ export class VotesRepository {
     if (!deleteResponse.affected) {
       throw new NotFoundException(`Cannot remove vote`);
     }
+    return this.getVoteAndCount(postId);
+  }
+
+  private async getVoteAndCount(postId: number) {
+    const [votes, count] = await this.votesRepository.findAndCount({
+      post: { id: postId },
+    });
+    return { postId, votes, count };
   }
 }

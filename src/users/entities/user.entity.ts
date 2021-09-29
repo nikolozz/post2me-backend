@@ -13,6 +13,7 @@ import {
 import { Post } from '../../posts/entities/post.entity';
 import { File } from '../../files/entities/file.entity';
 import { Notification } from '../../notifications/entities/notification.entity';
+import { Vote } from 'src/votes/entities/vote.entity';
 
 @Entity()
 export class User {
@@ -42,6 +43,12 @@ export class User {
     (post: Post) => post.author,
   )
   public posts: Post[];
+
+  @OneToMany(
+    () => Vote,
+    (vote: Vote) => vote.owner,
+  )
+  public votes: Vote[];
 
   @OneToOne(() => File, { eager: true, nullable: true })
   @JoinColumn()

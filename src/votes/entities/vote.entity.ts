@@ -10,6 +10,7 @@ export class Vote {
   @ManyToOne(
     () => Post,
     (post: Post) => post.votes,
+    { eager: true },
   )
   public post: Post;
 

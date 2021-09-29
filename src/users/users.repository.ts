@@ -12,7 +12,7 @@ export class UsersRepository {
   ) {}
 
   getById(id: number) {
-    return this.usersRepository.findOne(id);
+    return this.usersRepository.findOne(id, { relations: ['votes'] });
   }
 
   getByUsername(username: string) {

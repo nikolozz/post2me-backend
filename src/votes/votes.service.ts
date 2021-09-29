@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
 import { VotesRepository } from './votes.repository';
 import { CreateNotificationEvent } from '../notifications/events/implementations/create-notification.event';
@@ -18,9 +22,11 @@ export class VotesService {
     if (vote) {
       throw new BadRequestException(`User ${ownerId} Cannot vote twice`);
     }
-    const {
-      author: { id },
-    } = await this.postsService.getPost(postId);
+    const post = await this.postsService.getPost(postId);
+    if (!post) {
+      throw new NotFoundException(`Post ${postId} is not found`);
+    }
+    const { id } = post.author;
     if (id !== ownerId) {
       await this.eventBus.publish(
         new CreateNotificationEvent(
