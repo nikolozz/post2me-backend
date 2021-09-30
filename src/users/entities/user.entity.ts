@@ -47,6 +47,7 @@ export class User {
   @OneToMany(
     () => Vote,
     (vote: Vote) => vote.owner,
+    { nullable: true },
   )
   public votes: Vote[];
 

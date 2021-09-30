@@ -12,7 +12,7 @@ export class UsersRepository {
   ) {}
 
   getById(id: number) {
-    return this.usersRepository.findOne(id, { relations: ['votes'] });
+    return this.usersRepository.findOne(id);
   }
 
   getByUsername(username: string) {
@@ -20,7 +20,9 @@ export class UsersRepository {
   }
 
   getUserWithPosts(userId: number) {
-    return this.usersRepository.findOne(userId, { relations: ['posts'] });
+    return this.usersRepository.findOne(userId, {
+      relations: ['posts', 'votes'],
+    });
   }
 
   async create(user: CreateUserDto) {
