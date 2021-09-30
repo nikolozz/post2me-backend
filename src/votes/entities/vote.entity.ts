@@ -10,7 +10,7 @@ export class Vote {
   @ManyToOne(
     () => Post,
     (post: Post) => post.votes,
-    { eager: true },
+    { eager: true, onDelete: 'CASCADE' },
   )
   public post: Post;
 
