@@ -1,6 +1,7 @@
 import Joi = require('@hapi/joi');
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
 import { AuthenticationModule } from './authentication/authentication.module';
@@ -10,6 +11,7 @@ import { FilesModule } from './files/files.module';
 import { CommentsModule } from './comments/comments.module';
 import { VotesModule } from './votes/votes.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -37,7 +39,17 @@ import { NotificationsModule } from './notifications/notifications.module';
         PORT: Joi.number().required(),
         FRONTEND_URL: Joi.string().required(),
         PUBLIC_BUCKET: Joi.string().required(),
+        THROTTLER_TTL: Joi.number().required(),
+        THROTTLER_LIMIT: Joi.number().required(),
       }),
+    }),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        ttl: configService.get('THROTTLER_TTL'),
+        limit: configService.get('THROTTLER_LIMIT'),
+      }),
+      inject: [ConfigService],
     }),
     DatabaseModule,
     UsersModule,
@@ -47,6 +59,12 @@ import { NotificationsModule } from './notifications/notifications.module';
     CommentsModule,
     VotesModule,
     NotificationsModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}

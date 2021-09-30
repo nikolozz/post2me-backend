@@ -16,17 +16,20 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { IRequestWithUser } from '../authentication/interfaces/request-with-user.interface';
 import { JwtAuthenticationGuard } from '../authentication/guards/jwt-authentication.guard';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { SkipThrottle } from '@nestjs/throttler';
 
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
+  @SkipThrottle()
   getAllPosts(@Query() paginationParams?: PaginationParams) {
     return this.postsService.getAllPosts(paginationParams);
   }
 
   @Get(':postId')
+  @SkipThrottle()
   getPost(@Param('postId') postId: number) {
     return this.postsService.getPost(postId);
   }
