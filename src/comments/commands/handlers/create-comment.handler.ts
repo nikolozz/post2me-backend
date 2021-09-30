@@ -38,5 +38,6 @@ export class CreateCommandHandler
       );
     }
     await this.commentsRepository.save(newComment);
+    return newComment;
   }
 }
