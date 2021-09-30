@@ -16,13 +16,13 @@ export class PostsRepository {
     return this.postsRepository.find({
       take: limit,
       skip: offset,
-      order: { id: 'DESC'},
+      order: { id: 'DESC' },
       relations: ['votes'],
     });
   }
 
   getPost(postId: number) {
-    return this.postsRepository.findOne(postId);
+    return this.postsRepository.findOne(postId, { relations: ['votes'] });
   }
 
   async create(post: Post) {
