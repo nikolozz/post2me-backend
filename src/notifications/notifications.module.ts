@@ -7,12 +7,21 @@ import { CreateNotificationHandler } from './events/handlers/create-notification
 import { AddNotificationHandler } from './commands/handlers/add-notification.handler';
 import { NotificationsSaga } from './sagas/notifications.saga';
 import { NotificationsRepository } from './notifications.repository';
+import { NotificationsController } from './notifications.controller';
+import { MarkNotificationsViewedHandler } from './commands/handlers/mark-notification-viewed.handler';
+import { CqrsModule } from '@nestjs/cqrs';
 
-const CommandHandlers = [AddNotificationHandler];
+const CommandHandlers = [
+  AddNotificationHandler,
+  MarkNotificationsViewedHandler,
+];
 const EventHandlers = [CreateNotificationHandler];
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Notification, NotificationType])],
+  imports: [
+    TypeOrmModule.forFeature([Notification, NotificationType]),
+    CqrsModule,
+  ],
   providers: [
     NotificationsService,
     NotificationsRepository,
@@ -20,5 +29,6 @@ const EventHandlers = [CreateNotificationHandler];
     ...CommandHandlers,
     NotificationsSaga,
   ],
+  controllers: [NotificationsController],
 })
 export class NotificationsModule {}

@@ -19,6 +19,15 @@ export class NotificationsRepository {
     return this.notificationTypeRepository.findOne({ type });
   }
 
+  markNotificationsReadForUser(id: number) {
+    return this.notificationRepository
+      .createQueryBuilder('notification')
+      .update()
+      .set({ isViewed: true })
+      .where('userId = :id', { id })
+      .execute();
+  }
+
   async create(notificationBody: INotification) {
     const { type, userId, notifierId } = notificationBody;
     const { id } = await this.getNotificationType(type);

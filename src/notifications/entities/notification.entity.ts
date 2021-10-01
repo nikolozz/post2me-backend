@@ -19,10 +19,10 @@ export class Notification {
   @ManyToOne(() => NotificationType, { eager: true })
   public type: NotificationType;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { eager: true })
   public user: User;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { eager: true })
   public notifier: User;
 
   @CreateDateColumn()

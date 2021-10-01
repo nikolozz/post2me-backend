@@ -11,4 +11,8 @@ export class NotificationsService {
   addNotification(command: INotification) {
     return this.notificationsRepository.create(command);
   }
+
+  markNotificatitionsViewedForUser(id: number) {
+    return this.notificationsRepository.markNotificationsReadForUser(id);
+  }
 }

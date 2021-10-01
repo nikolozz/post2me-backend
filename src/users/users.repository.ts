@@ -21,7 +21,7 @@ export class UsersRepository {
 
   getUserWithPosts(userId: number) {
     return this.usersRepository.findOne(userId, {
-      relations: ['posts', 'votes'],
+      relations: ['posts', 'votes', 'notifications'],
     });
   }
 
