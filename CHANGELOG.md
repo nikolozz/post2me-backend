@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.13](https://github.com/nikolozz/catbook-backend/compare/v0.0.12...v0.0.13) (2021-10-01)
+
+
+### Features
+
+* mark notifications as read ([b21bd69](https://github.com/nikolozz/catbook-backend/commit/b21bd69287ef2720204b0ff83fdac492a3c4fb40))
+* rate limit ([d5fe454](https://github.com/nikolozz/catbook-backend/commit/d5fe45444e172bf2dfe838bea1929edd9ccc98c6))
+
+
+### Bug Fixes
+
+* circular dependency between data ([25f4f8e](https://github.com/nikolozz/catbook-backend/commit/25f4f8e39e760a7dff2a63586f6d03bc6432b20a))
+* return votes for single post ([e0b8471](https://github.com/nikolozz/catbook-backend/commit/e0b8471abbc00f50b2954a30b5baefb33454d119))
+
 ### [0.0.12](https://github.com/nikolozz/catbook-backend/compare/v0.0.11...v0.0.12) (2021-09-30)
 
 
