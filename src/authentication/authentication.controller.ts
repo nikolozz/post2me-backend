@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  HttpStatus,
   Post,
   Req,
   UseGuards,
@@ -12,11 +13,16 @@ import { RegisterDto } from './dto/register.dto';
 import { IRequestWithUser } from './interfaces/request-with-user.interface';
 import { LocalAuthenticationGuard } from './guards/local-authentication.guard';
 import { JwtAuthenticationGuard } from './guards/jwt-authentication.guard';
-import { HttpStatus } from '@nestjs/common';
 
 @Controller()
 export class AuthenticationController {
   constructor(private readonly authenticationService: AuthenticationService) {}
+
+  @Get('/')
+  @HttpCode(HttpStatus.OK)
+  health() {
+    return 
+  }
 
   @Get('authenticate')
   @UseGuards(JwtAuthenticationGuard)
