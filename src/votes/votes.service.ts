@@ -1,19 +1,13 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
 import { VotesRepository } from './votes.repository';
-import { CreateNotificationEvent } from '../notifications/events/implementations/create-notification.event';
 import { NotificationTypesEnum } from '../notifications/enums/notification-types.enum';
-import { PostsService } from '../posts/posts.service';
+import { UserVotedEvent } from './events/implementations/user-voted.event';
 
 @Injectable()
 export class VotesService {
   constructor(
     private readonly votesRepository: VotesRepository,
-    private readonly postsService: PostsService,
     private readonly eventBus: EventBus,
   ) {}
 
@@ -22,22 +16,13 @@ export class VotesService {
     if (vote) {
       throw new BadRequestException(`User ${ownerId} Cannot vote twice`);
     }
-    const post = await this.postsService.getPost(postId);
-    if (!post) {
-      throw new NotFoundException(`Post ${postId} is not found`);
-    }
-    const { id } = post.author;
-    if (id !== ownerId) {
-      await this.eventBus.publish(
-        new CreateNotificationEvent(
-          id,
-          ownerId,
-          NotificationTypesEnum.Vote,
-          postId,
-        ),
-      );
-    }
-
+    await this.eventBus.publish(
+      new UserVotedEvent({
+        authorId: ownerId,
+        postId,
+        type: NotificationTypesEnum.Vote,
+      }),
+    );
     return this.votesRepository.addVote({ postId, ownerId });
   }
 

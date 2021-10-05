@@ -8,6 +8,6 @@ export class AddNotificationHandler
   constructor(private readonly notificationsService: NotificationsService) {}
 
   execute(command: AddNotificationCommand) {
-    return this.notificationsService.addNotification(command);
+    return this.notificationsService.addNotification(command.payload);
   }
 }

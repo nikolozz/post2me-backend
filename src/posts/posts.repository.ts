@@ -22,7 +22,7 @@ export class PostsRepository {
   }
 
   getPost(postId: number) {
-    return this.postsRepository.findOne(postId, { relations: ['votes'] });
+    return this.postsRepository.findOneOrFail(postId, { relations: ['votes'] });
   }
 
   async create(post: Post) {

@@ -10,17 +10,15 @@ import {
 import { JwtAuthenticationGuard } from '../authentication/guards/jwt-authentication.guard';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { IRequestWithUser } from '../authentication/interfaces/request-with-user.interface';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreateCommentCommand } from './commands/implementations/create-comment.command';
-import { GetCommentsQuery } from './queries/implementations/get-comments.query';
+import { CommentsService } from './comments.service';
 
 @Controller('comments')
 export class CommentsController {
-  constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
+  constructor(private readonly commentsService: CommentsService) {}
 
   @Get(':postId')
   getComments(@Param('postId') postId: number) {
-    return this.queryBus.execute(new GetCommentsQuery(postId));
+    return this.commentsService.getComments(postId);
   }
 
   @Post('create')
@@ -29,8 +27,6 @@ export class CommentsController {
     @Body() { content, postId }: CreateCommentDto,
     @Req() request: IRequestWithUser,
   ) {
-    return this.commandBus.execute(
-      new CreateCommentCommand(request.user.id, postId, content),
-    );
+    return this.commentsService.createComment(request.user.id, postId, content);
   }
 }

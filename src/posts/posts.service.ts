@@ -17,7 +17,11 @@ export class PostsService {
   }
 
   getPost(postId: number) {
-    return this.postsRepository.getPost(postId);
+    try {
+      return this.postsRepository.getPost(postId);
+    } catch (error) {
+      throw new NotFoundException(postId);
+    }
   }
 
   async create(post: CreatePostDto, id: number) {

@@ -1,15 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import { INotification } from './interfaces/notification.interface';
+import { PostsService } from '../posts/posts.service';
+import { AddNotificationPayload } from './interfaces/add-notification.payload';
 import { NotificationsRepository } from './notifications.repository';
 
 @Injectable()
 export class NotificationsService {
   constructor(
     private readonly notificationsRepository: NotificationsRepository,
+    private readonly postsService: PostsService,
   ) {}
 
-  addNotification(command: INotification) {
-    return this.notificationsRepository.create(command);
+  async addNotification(command: AddNotificationPayload) {
+    const { authorId, type, postId } = command;
+    const post = await this.postsService.getPost(postId);
+    if (post.author.id === authorId) {
+      return;
+    }
+    return this.notificationsRepository.create({
+      userId: post.author.id,
+      notifierId: authorId,
+      type,
+      postId,
+    });
   }
 
   markNotificatitionsViewedForUser(id: number) {
