@@ -1,52 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectAwsService } from '../aws/decorators/inject-aws-service.decorator';
-import { ConfigService } from '@nestjs/config';
-import { v4 as uuidv4 } from 'uuid';
-import { S3 } from 'aws-sdk';
-import { FilesRepository } from './files.repository';
 import { QueryRunner } from 'typeorm';
+import { File } from './entities/file.entity';
 
-@Injectable()
-export class FilesService {
-  private bucket = this.configService.get('PUBLIC_BUCKET');
+export abstract class FilesService {
+  abstract getFile(fileId: number): Promise<File>;
 
-  constructor(
-    @InjectAwsService(S3) private readonly s3Service: S3,
-    private readonly filesRepository: FilesRepository,
-    private readonly configService: ConfigService,
-  ) {}
+  abstract uploadFile(userId: number, imageBuffer: Buffer, fileName: string): Promise<File>;
 
-  async getFile(fileId: number) {
-    return this.filesRepository.getFile(fileId);
-  }
-
-  async uploadFile(userId: number, imageBuffer: Buffer, fileName: string) {
-    const { Location, Key } = await this.s3Service
-      .upload({
-        Bucket: this.bucket,
-        Body: imageBuffer,
-        Key: `${uuidv4()}-${fileName}`,
-      })
-      .promise();
-    const file = await this.filesRepository.create(Location, Key, userId);
-    return file;
-  }
-
-  async deleteFileWithTransaction(
+  abstract deleteFileWithTransaction(
     userId: number,
     fileId: number,
     queryRunner: QueryRunner,
-  ) {
-    const file = await this.filesRepository.getFile(fileId);
-    if (file.ownerId !== userId) {
-      throw new NotFoundException();
-    }
-    await Promise.all([
-      this.s3Service.deleteObject({
-        Bucket: this.bucket,
-        Key: file.key,
-      }),
-      this.filesRepository.deleteWithTransaction(fileId, queryRunner),
-    ]);
-  }
+  ): Promise<void>;
 }
